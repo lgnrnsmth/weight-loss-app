@@ -71,14 +71,14 @@ if st.session_state['goal_weight'] and not st.session_state['data'].empty:
     else:
         st.write("### Estimated Goal Date: Not enough data to estimate or weight is not decreasing")
 
+# Calculate y-axis limits
+min_weight = st.session_state['data']['Weight'].min() if not st.session_state['data'].empty else 0
+max_weight = max(min_weight + 10, st.session_state['goal_weight'] + 10) if st.session_state['goal_weight'] else min_weight + 10
+
 # Plot the weight data using Altair
 if not st.session_state['data'].empty:
     st.write("### Weight Over Time")
     
-    # Calculate y-axis limits
-    min_weight = st.session_state['data']['Weight'].min() - 10
-    max_weight = st.session_state['data']['Weight'].max() + 10
-
     # Original data chart
     base_chart = alt.Chart(st.session_state['data']).mark_line(point=alt.OverlayMarkDef(color='black')).encode(
         x=alt.X('Date:T', title='Date', axis=alt.Axis(format='%b %d')),
