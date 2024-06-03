@@ -13,8 +13,8 @@ date = st.date_input("Select the date:")
 
 # Add button to store the input data
 if st.button("Add Entry"):
-    new_entry = {'Date': date, 'Weight': weight}
-    st.session_state['data'] = st.session_state['data'].append(new_entry, ignore_index=True)
+    new_entry = pd.DataFrame({'Date': [date], 'Weight': [weight]})
+    st.session_state['data'] = pd.concat([st.session_state['data'], new_entry], ignore_index=True)
     st.session_state['data'] = st.session_state['data'].sort_values(by='Date').reset_index(drop=True)
 
 # Function to calculate percentage change
