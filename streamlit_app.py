@@ -12,8 +12,8 @@ if 'goal_weight' not in st.session_state:
 
 st.title("Weight Tracker")
 
-# Input fields for weight and date
-weight = st.number_input("Enter your weight (in pounds):", min_value=0.0, format="%.2f")
+# Input field for current weight and date
+weight = st.number_input("Enter your current weight (in pounds):", min_value=0.0, format="%.2f")
 date = st.date_input("Select the date:")
 
 # Goal weight input
@@ -24,7 +24,6 @@ if st.button("Add Entry"):
     new_entry = pd.DataFrame({'Date': [date], 'Weight': [weight]})
     st.session_state['data'] = pd.concat([st.session_state['data'], new_entry], ignore_index=True)
     st.session_state['data'] = st.session_state['data'].sort_values(by='Date').reset_index(drop=True)
-    st.session_state['goal_weight'] = goal_weight
 
 # Function to calculate percentage change
 def calculate_percentage_change(data):
