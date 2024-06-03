@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Initialize a session state for storing data
 if 'data' not in st.session_state:
@@ -33,14 +32,7 @@ if not st.session_state['data'].empty:
 st.write("### Weight Data")
 st.dataframe(st.session_state['data'])
 
-# Plot the weight data
+# Plot the weight data using Streamlit's line_chart
 if not st.session_state['data'].empty:
-    fig, ax = plt.subplots()
-    ax.plot(st.session_state['data']['Date'], st.session_state['data']['Weight'], marker='o', linestyle='-')
-    ax.set_title("Weight over Time")
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Weight (lbs)")
-    ax.set_ylim(st.session_state['data']['Weight'].min() - 10, st.session_state['data']['Weight'].max() + 10)
-    plt.xticks(rotation=45)
-    st.pyplot(fig)
-
+    st.write("### Weight Over Time")
+    st.line_chart(st.session_state['data'].set_index('Date')['Weight'])
