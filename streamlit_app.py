@@ -87,3 +87,4 @@ if not st.session_state['data'].empty:
     )
 
     st.altair_chart(chart, use_container_width=True)
+    
