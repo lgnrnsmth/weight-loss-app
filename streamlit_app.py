@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 
 # Initialize a session state for storing data
 if 'data' not in st.session_state:
@@ -32,7 +33,22 @@ if not st.session_state['data'].empty:
 st.write("### Weight Data")
 st.dataframe(st.session_state['data'])
 
-# Plot the weight data using Streamlit's line_chart
+# Plot the weight data using Altair
 if not st.session_state['data'].empty:
     st.write("### Weight Over Time")
-    st.line_chart(st.session_state['data'].set_index('Date')['Weight'])
+    
+    # Calculate y-axis limits
+    min_weight = st.session_state['data']['Weight'].min() - 10
+    max_weight = st.session_state['data']['Weight'].max() + 10
+
+    # Create the Altair chart
+    chart = alt.Chart(st.session_state['data']).mark_line(point=alt.OverlayMarkDef(color='black')).encode(
+        x=alt.X('Date:T', title='Date', axis=alt.Axis(format='%b %d')),
+        y=alt.Y('Weight:Q', title='Weight (lbs)', scale=alt.Scale(domain=[min_weight, max_weight])),
+        tooltip=['Date:T', 'Weight:Q']
+    ).properties(
+        width=600,
+        height=400
+    )
+
+    st.altair_chart(chart, use_container_width=True)
